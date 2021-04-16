@@ -1,13 +1,12 @@
-import { UserModel } from "src/modules/users/user.model";
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class MessageModel {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  @OneToOne((type) => UserModel)
-  @JoinColumn()
-  author: UserModel;
+  // @OneToOne((type) => UserModel)
+  // @JoinColumn()
+  // author: UserModel;
 
   @Column()
   fileLink: string;

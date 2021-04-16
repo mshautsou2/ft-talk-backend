@@ -14,9 +14,9 @@ export class ChatModel {
   })
   isPrivate: boolean;
 
-  @ManyToMany((type) => UserModel, (user) => user.chats)
-  @JoinTable()
-  participants: UserModel[];
+  // @ManyToMany((type) => UserModel, (user) => user.chats)
+  // @JoinTable()
+  // participants: UserModel[];
 
   constructor(raw: Partial<ChatModel>) {
     Object.assign(this, raw)

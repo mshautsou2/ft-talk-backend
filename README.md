@@ -4,3 +4,6 @@
 3. Where to store token?
 4. Verify jwt expiration
 5. Create base mutation somwhere
+6. Tests
+7. Fix path
+8. is connection reused?

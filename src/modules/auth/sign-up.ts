@@ -1,60 +1,69 @@
+import { getDBManager } from "src/config/database-connection";
+import { BadRequestError } from "src/errors/BadRequest";
+import { MoreThan } from "typeorm";
+import { UserModel } from "../users/_models/user.model";
+import { SignUpEndpoint } from "../../../ft-talk-shared/src/functions/auth/sign-up";
 
-import { getDBManager } from 'src/config/database-connection';
-import { BadRequestError } from 'src/errors/BadRequest';
-import { MoreThan } from 'typeorm';
-import {  SignUpEndpoint, SignUpRequest, SignUpResponse } from '../../../ft-talk-shared/modules/auth/sign-up'
-import { UserModel } from '../users/_models/user.model';
+export const signUpHandler: SignUpEndpoint = async ({
+  username,
+  password,
+  phoneNumber,
+  fullName,
+}) => {
+  console.log(username, password, phoneNumber);
 
-export const signUp: SignUpEndpoint = async ({ username, password, phoneNumber }) => {
-    let user = await getDBManager().findOne(UserModel, {
-        where: [
-          {
-            username,
-            verified: true,
-          }
-        ],
-      });
-      if (user) {
-        throw new BadRequestError(`USERNAME_ALREADY_EXISTS`);
-      }
+  const userExists = await isUsernameTaken(username);
+  if (userExists) {
+    return {
+      success: false,
+      status: 'USERNAME_EXISTS',
+    };
+  }
 
-      user = await getDBManager().findOne(UserModel, {
-        phoneNumber,
-        verified: true,
-      });
-      if (user) {
-        throw new BadRequestError(`PHONE_NUMBER_ALREADY_EXISTS`);
-      }
-
-      user = await getDBManager().findOne(UserModel, {
-        lastVerificationDate: MoreThan(new Date(Date.now() - 30_000)),
-      })
-
-      if (user) {
-        throw new BadRequestError(`TOO_FREQUENT_VERIFICATION_REQUESTS`);
-      }
-      await requestVerification(phoneNumber);
-
-      await getDBManager().delete(UserModel, {
-        verified: false,
-        phoneNumber,
-        username,
-      });
-      await getDBManager().save(
-        new UserModel({
-          username,
-          phoneNumber,
-          password,
-          verified: false,
-          lastVerificationDate: new Date(),
-        })
-      );
+  const phoneNumberExists = await isPhoneNumberTaken(phoneNumber);
+  if (phoneNumberExists) {
       return {
-          success: true,
-        message: "Verification requested",
-      };
-}
+          success: false,
+          status: 'PHONE_NUMBER_EXISTS'
+      }
+  }
+
+  await getDBManager().save(new UserModel({
+    fullName,
+    username,
+    password,
+    phoneNumber
+  }))
+  return {
+      success: true,
+      status: 'CREATED',
+  }
+};
 
 function requestVerification(phoneNumber: string) {
-    throw new Error('Function not implemented.');
+  throw new Error("Function not implemented.");
+}
+
+async function isUsernameTaken(username: string) {
+  return (
+    (await getDBManager().findOne(UserModel, {
+      where: [
+        {
+          username,
+        },
+      ],
+    })) !== undefined
+  );
+}
+
+async function isPhoneNumberTaken(phoneNumber: string) {
+  return (
+    (await getDBManager().findOne(UserModel, {
+      where: [
+        {
+          phoneNumber,
+        },
+      ],
+    })) !== undefined
+  );
 }

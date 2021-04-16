@@ -1,5 +1,5 @@
 
-import { ChatModel } from 'src/modules/chats/_models/chat.model';
+import { ChatModel } from 'src/modules/chats/models/chat.model';
 import Chat from 'twilio/lib/rest/Chat';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm'
 
@@ -26,19 +26,25 @@ export class UserModel {
     })
     password: string;
 
-    @Column({
-        nullable: false,
-        default: true,
-    })
-    verified: boolean = false;
 
     @Column({
-        default: new Date(),
+        nullable: false
     })
-    lastVerificationDate: Date;
+    fullName: string;
 
-    @ManyToMany(type => ChatModel, chat => chat.participants)
-    chats: Chat[]
+    // @Column({
+    //     nullable: false,
+    //     default: true,
+    // })
+    // verified: boolean = false;
+
+    // @Column({
+    //     default: new Date(),
+    // })
+    // lastVerificationDate: Date;
+
+    // @ManyToMany(type => ChatModel, chat => chat.participants)
+    // chats: Chat[]
     constructor(data: Partial<UserModel>) {
         Object.assign(this, data)
     }
