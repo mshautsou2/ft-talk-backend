@@ -1,22 +1,22 @@
-import { Connection, createConnection } from "typeorm";
+import { Connection, createConnection } from 'typeorm'
 
-let databaseConnection: Connection;
+let databaseConnection: Connection
 createConnection({
-  type: "postgres",
-  host: "localhost",
-  port: 5432,
-  username: "postgres",
-  password: "postgres",
-  database: "fluid-talk",
-  entities: [__dirname + "/../modules/**/*.model.ts"],
-  synchronize: true,
-  logging: false,
+    type: 'postgres',
+    host: 'localhost',
+    port: 5432,
+    username: 'postgres',
+    password: 'postgres',
+    database: 'fluid-talk',
+    entities: [__dirname + '/../modules/**/*.model.ts'],
+    synchronize: true,
+    logging: false,
 })
-  .then((connection) => {
-    databaseConnection = connection;
-    console.log("connected to datbase!");
-  })
-  .catch(console.log);
+    .then((connection) => {
+        databaseConnection = connection
+        console.log('connected to datbase!')
+    })
+    .catch(console.log)
 
-export const getDatabaseConnection = () => databaseConnection;
-export const getDBManager = () => databaseConnection.manager;
+export const getDatabaseConnection = () => databaseConnection
+export const getDBManager = () => databaseConnection.manager

@@ -1,50 +1,39 @@
-
-import { ChatModel } from 'src/modules/chats/models/chat.model';
-import Chat from 'twilio/lib/rest/Chat';
+import { ChatModel } from 'src/modules/chats/models/chat.model'
+import { ParticipantModel } from 'src/modules/chats/models/participant.model'
+import Chat from 'twilio/lib/rest/Chat'
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
 export class UserModel {
-
     @PrimaryGeneratedColumn('uuid')
-    id: string;
+    id: string
 
     @Column({
         nullable: false,
-        unique: true
+        unique: true,
     })
-    phoneNumber: string;
+    phoneNumber: string
 
     @Column({
         nullable: false,
-        unique: true
+        unique: true,
     })
-    username: string;
+    username: string
 
     @Column({
-        nullable: false
+        nullable: false,
     })
-    password: string;
-
+    password: string
 
     @Column({
-        nullable: false
+        nullable: false,
     })
-    fullName: string;
+    fullName: string
 
-    // @Column({
-    //     nullable: false,
-    //     default: true,
-    // })
-    // verified: boolean = false;
 
-    // @Column({
-    //     default: new Date(),
-    // })
-    // lastVerificationDate: Date;
+    @ManyToMany((type) => ParticipantModel, (participant) => participant.user)
+    pariticipants: Chat[]
 
-    // @ManyToMany(type => ChatModel, chat => chat.participants)
-    // chats: Chat[]
     constructor(data: Partial<UserModel>) {
         Object.assign(this, data)
     }
