@@ -1,0 +1,3 @@
+[submodule "ft-talk-shared"]
+	path = ft-talk-shared
+	url = git@github.com:mshautsou2/ft-talk-shared.git
