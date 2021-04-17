@@ -1,8 +1,8 @@
-import { createLogger, transports } from "winston";
+import { createLogger, transports } from 'winston'
 
 export const logger = createLogger({
     transports: [
-      new transports.Console(),
-      new transports.File({ filename: 'combined.log' })
-    ]
-});
+        new transports.Console(),
+        new transports.File({ filename: 'combined.log' }),
+    ],
+})

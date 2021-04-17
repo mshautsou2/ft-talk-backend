@@ -9,6 +9,9 @@
         "outDir": "dist",
         "baseUrl": "./",
         "paths": {
+            "@shared/*": [
+                "./ft-talk-shared/src/*"
+            ],
             "src/*": [
                 "./src/*"
             ],
@@ -21,6 +24,7 @@
 
     },
     "include": [
-        "src/**/*"
+        "src/**/*",
+        "./ft-talk-shared/src/**/*"
     ]
 }
