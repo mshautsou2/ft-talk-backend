@@ -10,9 +10,8 @@ export const signUpHandler: SignUpEndpoint = async ({
   phoneNumber,
   fullName,
 }) => {
-  console.log(username, password, phoneNumber);
 
-  const userExists = await isUsernameTaken(username);
+  const userExists = await ensureUsernameIsNotTaken(username);
   if (userExists) {
     return {
       success: false,
@@ -20,7 +19,7 @@ export const signUpHandler: SignUpEndpoint = async ({
     };
   }
 
-  const phoneNumberExists = await isPhoneNumberTaken(phoneNumber);
+  const phoneNumberExists = await ensurePhoneNumberIsNotTaken(phoneNumber);
   if (phoneNumberExists) {
       return {
           success: false,
@@ -40,11 +39,7 @@ export const signUpHandler: SignUpEndpoint = async ({
   }
 };
 
-function requestVerification(phoneNumber: string) {
-  throw new Error("Function not implemented.");
-}
-
-async function isUsernameTaken(username: string) {
+async function ensureUsernameIsNotTaken(username: string) {
   return (
     (await getDBManager().findOne(UserModel, {
       where: [
@@ -56,7 +51,7 @@ async function isUsernameTaken(username: string) {
   );
 }
 
-async function isPhoneNumberTaken(phoneNumber: string) {
+async function ensurePhoneNumberIsNotTaken(phoneNumber: string) {
   return (
     (await getDBManager().findOne(UserModel, {
       where: [

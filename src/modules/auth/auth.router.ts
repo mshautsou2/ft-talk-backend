@@ -1,7 +1,9 @@
 import { Router } from "express";
-import { signUpHandler } from './sign-up'
-export const authRouter = Router()
+import { createRouter } from "src/libs/router-builder";
+import { signUpHandler } from "./sign-up";
+import { signInHandler } from "./sign-in";
 
-authRouter.post('/sign-up', async (req, res) => {
-    res.send(await signUpHandler(req.body))
-})
+export const authRouter = createRouter()
+  .addEndpoint("/sign-up", "post", signUpHandler)
+  .addEndpoint("/sign-in", "post", signInHandler)
+  .build();

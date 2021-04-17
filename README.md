@@ -1,3 +1,7 @@
+# Folder Structure
+
+# Naming convention
+
 ## ISSUES AND IMPROVEMENTS
 1. add redis for refresh tokens
 2. block frequent sms verifications
