@@ -7,6 +7,7 @@ import { logger } from './services/logger'
 import cors from 'cors'
 import { chatsRouter } from './modules/chats/chats.router'
 import { usersRouter } from './modules/users/user.router'
+import { messagesRouter } from './modules/messages/messages.router'
 
 const app = express()
 const PORT = 8003
@@ -17,6 +18,7 @@ app.use(json())
 app.use('/auth', authRouter)
 app.use('/chats', chatsRouter)
 app.use('/users', usersRouter)
+app.use('/chats', messagesRouter)
 
 app.get('/', (req, res) => res.send('ok'))
 

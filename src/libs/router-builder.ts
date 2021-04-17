@@ -42,6 +42,7 @@ export const createRouter = () => {
                         const response = await handler({
                             ...(req.body ? {...req.body} : {}),
                             auth: res.locals.auth,
+                            ...req.params,
                             _req: req,
                             _res: res,
                         })
