@@ -1,6 +1,6 @@
 import { GetMessagesEndpoint } from '@shared/functions/messages/get-messges'
 import { getDBManager } from 'src/config/database-connection'
-import { HandlingError } from 'src/libs/router-builder'
+import { HandlingError } from 'src/libs/router.builder'
 import { AuthInfo, WithAuthentication } from 'src/services/authenticator'
 import { GetAllChatsEndpoint } from '../../../ft-talk-shared/src/functions/chats/get-all-chats'
 import { ChatModel } from '../chats/models/chat.model'
@@ -30,7 +30,7 @@ export const getMessagesHandler: WithAuthentication<GetMessagesEndpoint> = async
         .select('message')
         .from(MessageModel, 'message')
         .leftJoinAndSelect('message.author', 'author')
-        .orderBy('timestamp', 'DESC')
+        .orderBy('timestamp', 'ASC')
         .offset(from)
         .limit(amount)
         .andWhere('message.chat.id = :chatId', { chatId })

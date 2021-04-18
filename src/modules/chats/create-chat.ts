@@ -1,5 +1,5 @@
 import { getDBManager } from 'src/config/database-connection'
-import { HandlingError } from 'src/libs/router-builder'
+import { HandlingError } from 'src/libs/router.builder'
 import { AuthInfo, WithAuthentication } from 'src/services/authenticator'
 import { CreateChatEndpoint } from '../../../ft-talk-shared/src/functions/chats/create-chat'
 import { UserModel } from '../users/_models/user.model'
@@ -13,7 +13,9 @@ export const createChatHandler: WithAuthentication<CreateChatEndpoint> = async (
 }) => {
     await ensureChatNameIsNotTaken(name)
 
-    participantIds.push(userId)
+    if (!participantIds.includes(userId)) {
+        participantIds.push(userId)
+    }
 
     const chatModel = await getDBManager().save(
         new ChatModel({
@@ -26,13 +28,12 @@ export const createChatHandler: WithAuthentication<CreateChatEndpoint> = async (
             await getDBManager().save(
                 new ParticipantModel({
                     chat: chatModel,
-                    user: (userId as unknown) as UserModel,
+                    user: (id as unknown) as UserModel,
                 })
             )
     )
 
     const participants: ParticipantModel[] = await Promise.all(participantsCreationPromises)
-
 
     return {
         success: true,

@@ -23,7 +23,7 @@ type Route = {
 export const createRouter = () => {
     const routes: Route[] = []
     const builder = {
-        addEndpoint: (
+        withEndpoint: (
             path: string,
             method: EndpointMethod,
             handler: (parameters: {

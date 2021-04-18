@@ -1,5 +1,5 @@
 import { getDBManager } from "src/config/database-connection"
-import { HandlingError } from "src/libs/router-builder"
+import { HandlingError } from "src/libs/router.builder"
 import { ChatModel } from "src/modules/chats/models/chat.model"
 
 export async function ensureUserAuthorizedToAccessChat(chatId: string, userId: string) {

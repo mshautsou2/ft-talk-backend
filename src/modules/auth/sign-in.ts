@@ -2,7 +2,7 @@ import { getDBManager } from 'src/config/database-connection'
 import { UserModel } from '../users/_models/user.model'
 
 import { SignInEndpoint } from '../../../ft-talk-shared/src/functions/auth/sing-in'
-import { HandlingError } from 'src/libs/router-builder'
+import { HandlingError } from 'src/libs/router.builder'
 import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from 'src/config/secrets'
 
@@ -14,7 +14,6 @@ export const signInHandler: SignInEndpoint = async ({
 
     const accessToken = generateAccessToken(user)
 
-    
     return {
         success: true,
         status: 'LOGGED_IN',

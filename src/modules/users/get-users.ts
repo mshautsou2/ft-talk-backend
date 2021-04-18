@@ -13,6 +13,7 @@ export const getUsersHandler: WithAuthentication<GetUsersEndpoint> = async ({
         .where('user.id != :userId', { userId })
         .getMany()
 
+
     return {
         success: true,
         status: 'USERS_RECEIVED',
