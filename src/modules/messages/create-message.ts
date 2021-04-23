@@ -9,14 +9,14 @@ import { ensureUserAuthorizedToAccessChat } from './_helper/permission.helper'
 export const createMessageHandler: WithAuthentication<CreateMessageEndpoint> = async ({
     auth: { id: userId },
     chatId,
-    audioLink,
+    resourceId,
     content,
 }) => {
     await ensureUserAuthorizedToAccessChat(chatId, userId)
 
     const message = await getDBManager().save(
         new MessageModel({
-            audioLink,
+            resourceId,
             author: (userId as unknown) as UserModel,
             chat: (chatId as unknown) as ChatModel,
             content,

@@ -10,7 +10,7 @@ createConnection({
     database: 'fluid-talk',
     entities: [__dirname + '/../modules/**/*.model.ts'],
     synchronize: true,
-    logging: false,
+    logging: true,
 })
     .then((connection) => {
         databaseConnection = connection

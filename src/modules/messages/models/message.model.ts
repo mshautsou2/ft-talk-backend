@@ -22,7 +22,7 @@ export class MessageModel {
     @JoinColumn()
     chat: ChatModel
 
-    @Column()
+    @Column({ nullable: true })
     content: string
 
     @Column({
@@ -31,7 +31,7 @@ export class MessageModel {
     timestamp: Date
 
     @Column()
-    audioLink: string
+    resourceId: string
 
     // @Column({
     //     nullable: false,

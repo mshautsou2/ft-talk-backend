@@ -10,25 +10,38 @@ import { ensureUserAuthorizedToAccessChat } from '../messages/_helper/permission
 import { ChatActionInfo } from '@shared/functions/messages-gateway/models/chat-action.model'
 // import { CreateMessage } from '@shared/functions/messages-gateway/models/send-message'
 import { CreateMessage } from '@shared/functions/messages-gateway/send-message'
+import { v4 as uuid } from 'uuid'
 
 
+
+import fs from 'fs'
 
 export const messageGateway = createSocketGateway()
     .withMiddleware(async ({ socket, next }) => {
+        console.log('AUTHENTICATION....')
         if (socket.handshake.query && socket.handshake.query.token) {
-            const authInfo = await decodeToken(
-                socket.handshake.query.token as string
-            )
-            socket.data.authInfo = authInfo
-            next()
+            try {
+                const authInfo = await decodeToken(
+                    socket.handshake.query.token as string
+                )
+                socket.data.authInfo = authInfo
+                console.log("AUTHORIZED AS", authInfo)
+                next()
+            } catch(e) {
+                console.log(e)
+            }
         } else {
-            throw new Error('Authorization error')
+            console.log('NOT AUTHORIZED')
         }
     })
     .withSocketHandler<ChatActionInfo>('join', async ({ socket, chatId }) => {
+        console.log('JOINING....')
+
         const { authInfo } = socket.data
         if (authInfo) {
+            console.log(authInfo)
             await ensureUserAuthorizedToAccessChat(chatId, authInfo.id)
+            console.log('AUTHENTICATION VERFIED')
             socket.join(chatId)
             console.log('socket ', socket.id, 'connected to', chatId)
         } else {
@@ -36,28 +49,34 @@ export const messageGateway = createSocketGateway()
         }
     })
     .withSocketHandler<ChatActionInfo>('leave', async ({ socket, chatId }) => {
+        console.log('LEAVING....')
+
         socket.leave(chatId)
     })
     .withSocketHandler<CreateMessage>(
         'message',
-        async ({ socket, content, chatId, audioLink }) => {
-            console.log('sending message with creds', socket.data.authInfo)
+        async ({ socket, chatId, blob }) => {
+            console.log('MESSAGING....')
+
+
+
+            const messageId = uuid()
+            fs.writeFileSync(`./temp/${messageId}.wav`, blob as any)
+
             const message = await getDBManager().save(
                 new MessageModel({
-                    audioLink,
+                    resourceId: messageId,
                     author: socket.data.authInfo.id as UserModel,
                     chat: (chatId as unknown) as ChatModel,
-                    content,
                     timestamp: new Date(),
                 })
             )
 
             if (message) {
-                console.log('sending to chat ', chatId, message)
                 const newMessage = {
                     id: message.id,
                     content: message.content,
-                    audioLink: message.audioLink,
+                    resourceId: message.resourceId,
                     author: {
                         fullName: socket.data.authInfo.fullName,
                     },

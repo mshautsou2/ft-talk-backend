@@ -16,7 +16,6 @@ export type WithAuthentication<T extends (...args: any) => any> = (args: Paramet
 export const authenticate = async (req: Request<any>, res: Response, next: any) => {
     const authHeader = req.headers.authorization
 
-
     if (authHeader) {
         const token = authHeader.split(' ')[1]
 
