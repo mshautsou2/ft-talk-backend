@@ -24,7 +24,7 @@ app.use(urlencoded({ extended: false }))
 app.use(json())
 
 app.get('/resources/:resourceId', (req, res) => {
-    fs.createReadStream(`./temp/${req.params.resourceId}.wav`).pipe(res)
+    fs.createReadStream(`./temp/${req.params.resourceId}`).pipe(res)
 })
 app.use('/auth', authRouter)
 app.use('/chats', chatsRouter)

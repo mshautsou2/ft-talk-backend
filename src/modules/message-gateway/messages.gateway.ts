@@ -60,8 +60,12 @@ export const messageGateway = createSocketGateway()
 
 
 
-            const messageId = uuid()
-            fs.writeFileSync(`./temp/${messageId}.wav`, blob as any)
+            let messageId = uuid()
+            while (fs.existsSync(`./temp/${messageId}`)) {
+                messageId = uuid()
+            }
+
+            fs.writeFileSync(`./temp/${messageId}`, blob as any)
 
             const message = await getDBManager().save(
                 new MessageModel({

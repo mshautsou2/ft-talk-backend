@@ -18,3 +18,8 @@
 12. AUDIOS OPEN
 ## OPTIMIZATION
 * Refactor everything with WebSockets?
+
+
+# INSRUCTIONS
+## Init git submodules
+`git submodule update --init`

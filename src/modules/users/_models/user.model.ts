@@ -30,6 +30,11 @@ export class UserModel {
     })
     fullName: string
 
+    @Column({
+        nullable: false,
+    })
+    photoResourceId: string
+
 
     @ManyToMany((type) => ParticipantModel, (participant) => participant.user)
     pariticipants: Chat[]
