@@ -52,6 +52,7 @@ jobs:
           username: mshautsou
           password: 89f6fa1e-849a-4c81-98f5-8f099e1d0e6f
  
+ 
       - name: Build backend container image
         run: docker build -t ${REPOSITORY_NAME}/${IMAGE_NAME}:latest .
 
