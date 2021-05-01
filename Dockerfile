@@ -4,6 +4,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN yarn
 COPY . .
-RUN yarn build
+# RUN yarn build
 EXPOSE 8003
-CMD ["node", "dist/main.js"]
+# CMD ["node", "dist/main.js"]
+CMD ["yarn", "watch"]

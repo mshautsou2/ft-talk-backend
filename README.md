@@ -30,3 +30,7 @@
 ```
 yarn add -D webpack webpack-cli webpack-node-externals ts-loader
 ```
+# Database
+```
+ kubectl port-forward -n fludder-develop fludder-deployment-68d6659c87-bswm5 5432:5432
+```
