@@ -1,10 +1,10 @@
-import { PG_DATABASE, PG_PASSWORD, PG_USERNAME } from 'src/env/env'
+import { PG_DATABASE, PG_HOST, PG_PASSWORD, PG_USERNAME } from 'src/env/env'
 import { Connection, createConnection } from 'typeorm'
 
 let databaseConnection: Connection
 createConnection({
     type: 'postgres',
-    host: 'localhost',
+    host: PG_HOST,
     port: 5432,
     username: PG_USERNAME,
     password: PG_PASSWORD,
