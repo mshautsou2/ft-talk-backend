@@ -4,9 +4,9 @@ services:
   db:
     image: postgres
     environment:
-      - POSTGRES_DB=fluid-talk
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=fludder
+      - POSTGRES_USER=fludder
+      - POSTGRES_PASSWORD=fludder
       - PGDATA=./local_database/data
     ports:
       - "5432:5432"

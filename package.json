@@ -36,6 +36,15 @@
     "exec": "node -r tsconfig-paths/register -r ts-node/register ./src/index.ts"
   },
   "scripts": {
-    "watch": "nodemon ./src/index.ts"
+    "watch": "nodemon ./src/index.ts",
+    "build": "webpack",
+    "start": "node dist/main.js"
+  },
+  "devDependencies": {
+    "socket.io-client": "^4.0.1",
+    "ts-loader": "^9.1.1",
+    "webpack": "^5.36.2",
+    "webpack-cli": "^4.6.0",
+    "webpack-node-externals": "^3.0.0"
   }
 }

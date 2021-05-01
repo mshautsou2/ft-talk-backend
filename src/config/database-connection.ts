@@ -1,3 +1,4 @@
+import { PG_DATABASE, PG_PASSWORD, PG_USERNAME } from 'src/env/env'
 import { Connection, createConnection } from 'typeorm'
 
 let databaseConnection: Connection
@@ -5,9 +6,9 @@ createConnection({
     type: 'postgres',
     host: 'localhost',
     port: 5432,
-    username: 'postgres',
-    password: 'postgres',
-    database: 'fluid-talk',
+    username: PG_USERNAME,
+    password: PG_PASSWORD,
+    database: PG_DATABASE,
     entities: [__dirname + '/../modules/**/*.model.ts'],
     synchronize: true,
     logging: true,

@@ -1,2 +1,14 @@
 {
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "fludder database",
+            "database": "fludder",
+            "username": "fludder",
+            "password": "fludder"
+        }
+    ]
 }

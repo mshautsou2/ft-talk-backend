@@ -23,3 +23,10 @@
 # INSRUCTIONS
 ## Init git submodules
 `git submodule update --init`
+
+
+
+## Add webpack
+```
+yarn add -D webpack webpack-cli webpack-node-externals ts-loader
+```

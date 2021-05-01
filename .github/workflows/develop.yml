@@ -1,0 +1,64 @@
+
+name: CI
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    env:
+      CLUSTER_NAME: ""
+      REGISTRY_NAME: ""
+      REPOSITORY_NAME: mshautsou
+      IMAGE_NAME: fludder-backend
+      DOCKERHUB_USERNAME: mshautsou
+      DOCKERHUB_TOKEN: 89f6fa1e-849a-4c81-98f5-8f099e1d0e6f
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure git ssh
+        env:
+            SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+            ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+            ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
+
+      - name: Clone shared modules
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          git submodule init
+          git submodule update
+          cd ft-talk-shared
+          git checkout develop
+
+      # - name: Checkout shared submodule
+      #   uses: actions/checkout@v2
+      #   with:
+      #     repository: mshautsou2/ft-talk-shared
+      #     token: ${{ secrets.ACCESS_TOKEN }} # `GitHub_PAT` is a secret that contains your PAT
+      #     path: src/api
+      #     ref: develop
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: mshautsou
+          password: 89f6fa1e-849a-4c81-98f5-8f099e1d0e6f
+ 
+      - name: Build backend container image
+        run: docker build -t ${REPOSITORY_NAME}/${IMAGE_NAME}:latest .
+
+      - name: Push image to DokcerHub Container Registry
+        run: docker push ${REPOSITORY_NAME}/${IMAGE_NAME}:latest
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.K8S_ACCESS_TOKEN }}
