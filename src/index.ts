@@ -24,7 +24,11 @@ app.use(urlencoded({ extended: false }))
 app.use(json())
 
 app.get('/resources/:resourceId', (req, res) => {
-    fs.createReadStream(`./temp/${req.params.resourceId}`).pipe(res)
+    if (fs.existsSync(`./temp/${req.params.resourceId}`)) {
+        fs.createReadStream(`./temp/${req.params.resourceId}`).pipe(res)
+    } else {
+        res.send('oops')
+    }
 })
 app.use('/auth', authRouter)
 app.use('/chats', chatsRouter)
